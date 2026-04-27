@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@source "../../../source/**/*";
 
 @theme {
   /* GitHub Light (Classic) - Tuned for contrast */
@@ -187,8 +186,9 @@
   }
 
   /* Checked: Same size, just different color */
-  & li input[type="checkbox"]:checked {
-    @apply bg-green-600 border-green-600;
+  & li input[type="checkbox"]:checked { 
+    background-color: var(--primary-color, #16a34a); 
+    border-color: var(--primary-color, #16a34a); 
   }
 
   & li input[type="checkbox"]:checked::before {
