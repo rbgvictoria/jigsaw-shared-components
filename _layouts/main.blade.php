@@ -5,22 +5,34 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>{{ $page->siteName }} | {{ $page->title }}</title>
       <meta name="description" content="{{ $page->description ?? '' }}" />
+      
       <link rel="preconnect" href="https://fonts.bunny.net" />
       <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
       <link rel="icon" href="/favicon.ico" sizes="any">
-      @viteRefresh()
-      <link rel="stylesheet" href="{{ vite('source/assets/css/main.css') }}">
-      <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
       
+      @viteRefresh()
+      {{-- This helper looks for the manifest at the project root --}}
+      <link rel="stylesheet" href="{{ $page->baseUrl }}{{ vite('source/assets/css/main.css') }}">
+      <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+
+      {{-- Dynamic Branding --}}
+      <style>
+          :root {
+              --page-bg-from: {{ $page->bg_from ?? '#f0fdf4' }}; /* Default to green-50 */
+              --page-bg-to: {{ $page->bg_to ?? '#ecfdf5' }};   /* Default to emerald-50 */
+          }
+      </style>
   </head>
   
-  <body class="fade-in min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-green-900 font-sans">
-      @include('_shared._partials.header')
+  <body class="fade-in min-h-screen bg-gradient-to-br from-[var(--page-bg-from)] via-white to-[var(--page-bg-to)] dark:from-gray-900 dark:via-gray-800 dark:to-gray-950 font-sans">
+      @includeFirst(['_partials.header', '_shared._partials.header'])
+      
       <div class="container mx-auto grid grid-cols-1 gap-4 lg:gap-8 lg:grid-cols-4 py-6 px-4 h-full">
           @include('_shared._partials.sidebar')
+          
           <main class="lg:col-span-3 prose prose-sm max-w-none dark:prose-invert">
               <div class="bg-white border border-gray-200 rounded-xl mt-2 p-6 pt-8 dark:bg-black dark:border-gray-700">
-                  {{-- 1. The Dynamic Page Title --}}
+                  
                   <div class="mb-8">
                       @include('_shared._partials.breadcrumbs')
 
@@ -35,12 +47,10 @@
                       @endif
                   </div>
 
-                  {{-- 2. The Table of Contents --}}
                   @if($page->getFilename() !== 'introduction')
                       @include('_shared._partials.toc', ['maxLevel' => $page->tocLevel ?? 3])
                   @endif
 
-                  {{-- 3. The Markdown Content --}}
                   <div class="prose dark:prose-invert max-w-none">
                       @yield('content')
                   </div>
@@ -50,7 +60,9 @@
 
       @include('_shared._partials.mobile-menu')
 
-      <script type="module" src="{{ vite('source/assets/js/main.js') }}"></script>
+      <script type="module" src="{{ $page->baseUrl }}{{ vite('source/assets/js/main.js') }}"></script>
+      
+      {{-- Shared JS (Menu logic, etc.) --}}
       <script>
           document.addEventListener('DOMContentLoaded', function () {
               const toggleButton = document.getElementById('mobile-menu-toggle');
@@ -59,58 +71,31 @@
               const closeIcon = document.getElementById('close-icon');
 
               if (toggleButton && mobileMenu && menuIcon && closeIcon) {
-                  toggleButton.addEventListener('click', function () {
-                      const isHidden = mobileMenu.classList.contains('hidden');
-                      if (isHidden) {
-                          mobileMenu.classList.remove('hidden');
-                          mobileMenu.classList.add('flex');
-                          menuIcon.classList.add('hidden');
-                          closeIcon.classList.remove('hidden');
-                      } else {
-                          mobileMenu.classList.add('hidden');
-                          mobileMenu.classList.remove('flex');
-                          menuIcon.classList.remove('hidden');
-                          closeIcon.classList.add('hidden');
-                      }
-                  });
+                  const toggleMenu = (hide) => {
+                      mobileMenu.classList.toggle('hidden', hide);
+                      mobileMenu.classList.toggle('flex', !hide);
+                      menuIcon.classList.toggle('hidden', !hide);
+                      closeIcon.classList.toggle('hidden', hide);
+                  };
 
-                  // Close mobile menu when a link is clicked
-                  mobileMenu.querySelectorAll('a').forEach(link => {
-                      link.addEventListener('click', () => {
-                          mobileMenu.classList.add('hidden');
-                          mobileMenu.classList.remove('flex');
-                          menuIcon.classList.remove('hidden');
-                          closeIcon.classList.add('hidden');
-                      });
-                  });
+                  toggleButton.addEventListener('click', () => toggleMenu(!mobileMenu.classList.contains('hidden')));
+                  mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => toggleMenu(true)));
               }
 
-              // Scroll active sidebar link into view
-              // We use 'nearest' so it only scrolls if the link is actually off-screen
-              const activeLink = document.querySelector('aside .bg-emerald-50, aside .bg-emerald-900\\/30');
+              // Active Link Highlighting & Auto-scroll
+              const activeLink = document.querySelector('aside .bg-emerald-50, aside .bg-emerald-900\\/30, aside .text-emerald-600');
               if (activeLink) {
-                  // A tiny timeout ensures the browser has finished its initial paint
-                  setTimeout(() => {
-                      activeLink.scrollIntoView({
-                          behavior: 'smooth',
-                          block: 'nearest'
-                      });
-                  }, 100);
+                  setTimeout(() => activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
               }
 
-              // 2. NEW Sidebar Toggle Logic
               const sidebarToggle = document.getElementById('sidebar-toggle');
               const sidebarMenu = document.getElementById('sidebar-menu');
               const sidebarArrow = document.getElementById('sidebar-arrow');
 
               if (sidebarToggle && sidebarMenu) {
-                  sidebarToggle.addEventListener('click', function () {
+                  sidebarToggle.addEventListener('click', () => {
                       const isHidden = sidebarMenu.classList.toggle('hidden');
-                      
-                      // Rotate the arrow icon if it exists
-                      if (sidebarArrow) {
-                          sidebarArrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
-                      }
+                      if (sidebarArrow) sidebarArrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
                   });
               }
           });
