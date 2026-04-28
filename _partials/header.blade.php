@@ -9,7 +9,7 @@
             
             {{-- Divider and Mobile User Context --}}
             <div class="mt-2 border-t border-gray-100 pt-4 dark:border-gray-800">
-                @include('_shared._partials.user-menu')
+                @includeFirst(['_partials.nav-right', '_shared._partials.nav-right-default'])
             </div>
         </div>
     </div>

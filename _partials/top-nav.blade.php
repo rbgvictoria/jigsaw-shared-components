@@ -2,23 +2,25 @@
     <div class="flex items-center space-x-10">
         {{-- Logo --}}
         <a href="/" class="flex items-center space-x-2 transition-opacity hover:opacity-80">
-            <img src="/assets/images/keybase-logo-80.png" alt="KeyBase" class="h-8 w-8 invert dark:invert-0" width="32" height="32" />
-            <span class="text-2xl font-bold text-gray-900 dark:text-white">KeyBase</span>
+            <img src="{{ $page->baseUrl }}{{ $page->siteLogo }}" alt="{{ $page->siteName}}" class="h-8 w-8 invert dark:invert-0" width="32" height="32" />
+            <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $page->siteName }}</span>
         </a>
 
         {{-- Desktop Navigation (Matches React md:flex) --}}
         <div class="hidden items-center space-x-8 md:flex">
-            <a href="/projects" class="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400">Projects</a>
-            <a href="/about" class="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400">About</a>
-            <a href="/docs/api" class="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400">API</a>
-            <a href="/docs" class="text-gray-600 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400">Docs</a>
+            @foreach ($page->siteMenu as $link)
+                <a href="{{ $page->appUrl }}{{ $link->link }}" 
+                  class="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400">
+                    {{ $link->title }}
+                </a>
+            @endforeach
         </div>
     </div>
             
     <div class="flex items-center gap-3">
         {{-- Desktop Actions (Matches sm:flex) --}}
         <div class="hidden md:flex items-center ml-auto">
-            @include('_shared._partials.user-menu')
+            @includeFirst(['_partials.nav-right', '_shared._partials.nav-right-default'])
         </div>
 
         {{-- MOBILE TOGGLE BUTTON (Essential for mobile to work) --}}
