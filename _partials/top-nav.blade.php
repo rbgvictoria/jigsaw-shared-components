@@ -2,7 +2,7 @@
     <div class="flex items-center space-x-10">
         {{-- Logo --}}
         <a href="/" class="flex items-center space-x-2 transition-opacity hover:opacity-80">
-            <img src="{{ $page->baseUrl }}{{ $page->siteLogo }}" alt="{{ $page->siteName}}" class="h-8 w-8 invert dark:invert-0" width="32" height="32" />
+            <img src="{{ $page->baseUrl }}{{ $page->siteLogo }}" alt="{{ $page->siteName}}" class="h-8 w-8" width="32" height="32" />
             <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ $page->siteName }}</span>
         </a>
 
