@@ -137,7 +137,6 @@
   li > p { margin-top: 0; margin-bottom: 0; }
   li > :last-child { margin-bottom: 0; }
 
-  /* 1. Remove the border/background from the outer container */
   & pre {
     border: none;
     background-color: transparent;
@@ -145,7 +144,6 @@
     margin: 2rem 0; /* Keeps the spacing but removes the "box" feel */
   }
 
-  /* 2. Style the actual code block inside */
   & pre code {
     border: none;
     padding: 0;
@@ -153,7 +151,6 @@
     font-weight: 400; /* Overrides the default prose bolding for code */
   }
 
-  /* 3. Handle inline code (code not inside a pre) differently if desired */
   & :not(pre) > code {
     background-color: var(--color-slate-100);
     padding: 0.2rem 0.4rem;
@@ -161,9 +158,17 @@
     border: 1px solid var(--color-slate-200);
   }
   
-  /* 4. Fix the underline issue for your TOC links */
   & a {
+    /* Light mode default */
+    color: var(--color-link) !important;
     text-decoration: none;
+    font-weight: 600;
+
+    /* Dark mode override */
+    @variant dark {
+      /* Switches to a lighter orange/primary for legibility */
+      color: var(--color-primary-400) !important;
+    }
   }
 
   & :is(h2, h3, h4) {

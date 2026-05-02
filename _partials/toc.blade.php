@@ -43,8 +43,8 @@
                     <a href="#{{ $slug }}" 
                        class="no-underline transition-colors duration-200 hover:text-gray-900 dark:hover:text-white hover:underline
                        {{ $level == '2' 
-                           ? 'text-sm font-semibold text-green-600 dark:text-green-400' 
-                           : 'text-sm font-medium text-gray-500 dark:text-gray-400' 
+                           ? 'text-sm font-semibold text-primary-600 dark:text-primary-400' 
+                           : 'text-sm font-medium text-gray-600 dark:text-gray-400' 
                        }}">
                         {{ $cleanHeading }}
                     </a>
