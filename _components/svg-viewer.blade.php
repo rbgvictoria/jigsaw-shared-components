@@ -34,7 +34,7 @@
 
     {{-- Viewer Area --}}
     <div class="svg-viewer-container p-4 transition-all duration-300" style="height: {{ $height }};">
-        <object id="{{ $id }}" type="image/svg+xml" data="{{ $baseUrl }}{{ $path }}" class="w-full h-full block">
+        <object id="{{ $id }}" type="image/svg+xml" data="{{ rtrim($baseUrl, '/') }}/{{ ltrim($path, '/') }}" class="w-full h-full block">
             Your browser does not support SVG
         </object>
     </div>

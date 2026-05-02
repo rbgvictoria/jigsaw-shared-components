@@ -10,7 +10,7 @@
         
         {{-- The Image Wrapper --}}
         <div class="overflow-hidden rounded-lg">
-            <img src="{{ $baseUrl }}{{ $src }}" 
+            <img src="{{ rtrim($baseUrl, '/') }}/{{ ltrim($src, '/') }}" 
                  alt="{{ $alt ?? '' }}" 
                  class="block mx-auto max-h-[500px] w-auto h-auto object-contain">
         </div>
