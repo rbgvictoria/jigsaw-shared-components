@@ -14,7 +14,7 @@
     $badgeText = ($status === 'final') ? 'FINAL' : 'SCAFFOLD';
 @endphp
 
-<div id="wrapper-{{ $id }}" class="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white/50 dark:bg-black/20 backdrop-blur-sm fullscreen:h-screen fullscreen:bg-white dark:fullscreen:bg-gray-900">
+<div id="wrapper-{{ $id }}" class="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-black backdrop-blur-sm fullscreen:h-screen fullscreen:bg-white dark:fullscreen:bg-gray-900">
     
     {{-- Header Bar --}}
     <div class="flex items-center justify-between px-4 py-2 bg-gray-50/80 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 z-20">
