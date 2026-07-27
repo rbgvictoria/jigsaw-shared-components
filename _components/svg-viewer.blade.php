@@ -1,4 +1,4 @@
-{{-- source/_components/svg-viewer.blade.php --}}
+{{-- source/_shared/_components/svg-viewer.blade.php --}}
 @php
     $container = \Illuminate\Container\Container::getInstance();
     $jigsawPage = $container->has('pageData') ? $container->make('pageData')->page : null;
@@ -9,6 +9,7 @@
     $height = $height ?? '500px';
     $path = $path ?? '';
     $status = $status ?? 'draft';
+    $maxZoom = $maxZoom ?? 10;
     
     $badgeClasses = ($status === 'final') ? 'bg-emerald-500' : 'bg-amber-500';
     $badgeText = ($status === 'final') ? 'FINAL' : 'SCAFFOLD';
@@ -67,7 +68,9 @@
                     zoomEnabled: true,
                     controlIconsEnabled: false,
                     fit: true,
-                    center: true
+                    center: true,
+                    maxZoom: {{ $maxZoom }},
+                    zoomScaleSensitivity: 0.3
                 });
 
                 // Zoom & Reset Controls
