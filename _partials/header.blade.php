@@ -1,6 +1,6 @@
 <header class="sticky top-0 z-50 border-b border-green-100 bg-white/80 backdrop-blur-md dark:border-gray-700 dark:bg-gray-900/80">
     <div class="container mx-auto px-4 py-4">
-        @include('_shared._partials.top-nav')
+        @includeFirst(['_partials.top-nav', '_shared._partials.top-nav'])
         {{-- Mobile Menu Dropdown --}}
         <div id="mobile-menu-dropdown" class="mt-4 hidden flex-col space-y-4 pb-6 md:hidden">
             <a href="/projects" class="text-lg font-medium text-gray-600 dark:text-gray-300">Projects</a>
