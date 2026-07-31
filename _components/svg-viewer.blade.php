@@ -8,24 +8,17 @@
     $id = $id ?? 'svg-' . uniqid();
     $height = $height ?? '500px';
     $path = $path ?? '';
-    $status = $status ?? 'draft';
     $maxZoom = $maxZoom ?? 10;
-    
-    $badgeClasses = ($status === 'final') ? 'bg-emerald-500' : 'bg-amber-500';
-    $badgeText = ($status === 'final') ? 'FINAL' : 'SCAFFOLD';
+    $bgColor = $bgColor ?? 'bg-white dark:bg-black';
 @endphp
 
 <div id="wrapper-{{ $id }}" class="flex flex-col border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-black backdrop-blur-sm fullscreen:h-screen fullscreen:bg-white dark:fullscreen:bg-gray-900">
     
     {{-- Header Bar --}}
     <div class="flex items-center justify-between px-4 py-2 bg-gray-50/80 dark:bg-gray-800/80 border-b border-gray-200 dark:border-gray-700 z-20">
-        {{-- Status Badge --}}
-        <span class="{{ $badgeClasses }} text-white text-[10px] font-bold px-2 py-0.5 rounded tracking-wider uppercase">
-            {{ $badgeText }}
-        </span>
 
         {{-- Control Group --}}
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 ml-auto">
             <button id="zoom-in-{{ $id }}" class="hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 w-8 h-8 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 font-bold text-lg transition-colors" title="Zoom In">+</button>
             <button id="zoom-out-{{ $id }}" class="hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 w-8 h-8 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 font-bold text-lg transition-colors" title="Zoom Out">−</button>
             <button id="reset-{{ $id }}" class="hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 w-8 h-8 flex items-center justify-center rounded border border-gray-300 dark:border-gray-600 text-lg transition-colors" title="Reset View">⟲</button>
@@ -35,7 +28,7 @@
 
     {{-- Viewer Area --}}
     <div class="svg-viewer-container p-4 transition-all duration-300" style="height: {{ $height }};">
-        <object id="{{ $id }}" type="image/svg+xml" data="{{ rtrim($baseUrl, '/') }}/{{ ltrim($path, '/') }}" class="w-full h-full block">
+        <object id="{{ $id }}" type="image/svg+xml" data="{{ rtrim($baseUrl, '/') }}/{{ ltrim($path, '/') }}" class="w-full h-full block {{ $bgColor }}">
             Your browser does not support SVG
         </object>
     </div>
